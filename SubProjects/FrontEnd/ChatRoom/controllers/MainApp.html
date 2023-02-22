@@ -1,0 +1,90 @@
+<div class="card" v-show="roomName" style="margin: 1rem;flex:1;display: flex;flex-direction:column;overflow: auto;">
+    <div class="card-header font-weight-bold" style="text-align: center;">
+        <div style="float: left;">
+            <span class="font-weight-bold">录制屏幕</span>
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button :disabled="recordingScreen" @click="btnStartRecordScreenClicked" type="button"
+                        class="btn btn-outline-danger"
+                        style="padding: 0;width: 2.5rem"><i
+                        class="fas fa-circle"></i>
+                </button>
+                <button :disabled="!recordingScreen" @click="btnStopRecordScreenClicked" type="button"
+                        class="btn btn-outline-danger"
+                        style="padding: 0; width: 2.5rem"><i
+                        class="fas fa-square"></i>
+                </button>
+            </div>
+        </div>
+        <button ref="btn_show_record_lib" class="btn btn-link" style="float: right;padding: 0;" data-toggle="tooltip"
+                title="保存的录像" @click="btnShowRecordLibClicked"><i
+                class="fa fa-film"></i></button>
+        {{roomName}}
+    </div>
+    <div class="card-body"
+         style="flex: 1;overflow: auto;display: flex;flex-direction: row;">
+        <div style="display: flex;height: 100%;overflow:auto;flex-direction: column;">
+            <div class="card" style="width: min-content;height: min-content;margin-bottom: 0.5rem;"
+                 v-for="u in userList">
+                <div class="card-header" style="text-align: center;padding: 0;width: 155px;">
+                    {{getUserRole(u)}}{{u.userName}}
+                </div>
+                <stream-viewer v-if="u.mode=='broadcaster'" :sid="u.sid" :mediator="mediator"></stream-viewer>
+            </div>
+        </div>
+        <div style="width: 1rem;"></div>
+        <div style="flex: 1;display: flex;flex-direction: column;height: 100%;">
+            <textarea ref="roomChatOutputTextArea" class="form-control"
+                      style="display: block;flex: 1;width: 100%;background-color: white;"
+                      v-model="roomChatOutput"
+                      readonly></textarea>
+            <div style="height: 0.5rem;"></div>
+            <div style="width: 100%;display: flex;flex-direction: row;">
+                <input type="text" class="form-control" style="flex: 1;" v-model="userInput"
+                       @keydown="userInputKeyDownHandler">
+                <div style="width: 0.5rem;"></div>
+                <button class="btn btn-primary" @click="btnSendClicked">发送</button>
+            </div>
+        </div>
+    </div>
+
+    <div ref="recorded_video_lib" style="overflow: auto;" class="modal" tabindex="-1"
+         role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content" style="max-height: 500px;display: flex;flex-direction: column;">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold">录制的视频</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="flex:1;overflow: auto;">
+                    <div v-if="recorded_videos.length">
+                        <table class="table">
+                            <tbody>
+                            <tr v-for="v in recorded_videos">
+                                <td style="word-break: break-all;">{{v.video_id}}</td>
+                                <td>{{v.user_name}}</td>
+                                <td style="max-width: 15rem;min-width: 15rem;width: 15rem;text-align: center;">
+                                    <button class="btn btn-primary btn-sm" @click="btnPreviewClicked"
+                                            :data-video_id="v.video_id"><i
+                                            class="fa fa-play"
+                                            style="pointer-events: none;"></i> 预览
+                                    </button>
+                                    <button class="btn btn-primary btn-sm" @click="btnExportClicked"
+                                            :data-video_id="v.video_id"><i
+                                            class="fa fa-file-export"
+                                            style="pointer-events: none;"></i> 导出
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div v-else>
+                        暂时没有内容
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

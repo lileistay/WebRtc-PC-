@@ -1,0 +1,29 @@
+{
+  "name": "webrtchatroom",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "build": "webpack --mode=production",
+    "watch": "webpack --mode=development --watch"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "log4js": "^6.3.0",
+    "morgan": "~1.9.1",
+    "socket.io": "^2.3.0",
+    "twig": "~0.10.3"
+  },
+  "devDependencies": {
+    "css-loader": "^3.5.3",
+    "dexie": "^2.0.4",
+    "html-loader": "^1.1.0",
+    "style-loader": "^1.2.0",
+    "vue": "^2.6.11",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  }
+}

@@ -1,2 +1,3 @@
-# WebRtc-PC-
-webrtc音视频通话pc端
+# WebRTChatRoom
+下载项目之后安装依赖最后启动项目，然后在浏览器输入1270.0.0.1:3000即可运行
+也可直接部署服务器（要求有node环境）命令为node ./bin/www
